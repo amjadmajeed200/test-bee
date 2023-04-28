@@ -92,7 +92,14 @@ class MenuController extends BaseController
     ]
      */
 
-    public function getMenuItems() {
+    public function getMenuItems()
+    {
+        $menuItems = MenuItem::whereNull('parent_id')
+            ->with('children')
+            ->orderBy('order')
+            ->get();
+        
+        return $menuItems;
         throw new \Exception('implement in coding task 3');
     }
 }

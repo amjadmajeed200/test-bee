@@ -36,6 +36,39 @@ class CreateCinemaSchema extends Migration
      */
     public function up()
     {
+        Schema::create('movies', function (Blueprint $table) {
+            $table->id();
+            $table->string('title');
+            $table->text('description');
+            $table->string('poster')->nullable();
+            $table->timestamps();
+        });
+
+        Schema::create('showrooms', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->integer('capacity');
+            $table->timestamps();
+        });
+
+        Schema::create('shows', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('movie_id')->constrained();
+            $table->foreignId('showroom_id')->constrained();
+            $table->datetime('start_time');
+            $table->timestamps();
+        });
+
+        Schema::create('seats', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('showroom_id')->constrained();
+            $table->integer('row');
+            $table->integer('number');
+            $table->string('type');
+            $table->boolean('booked')->default(false);
+            $table->timestamps();
+        });
+
         throw new \Exception('implement in coding task 4, you can ignore this exception if you are just running the initial migrations.');
     }
 
